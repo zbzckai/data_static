@@ -99,7 +99,26 @@ for i in range(0,len(time_columns)-1):
 ##查看不同的时间间隔是否会影响后的结果
 tmp = data[0:train.shape[0]]
 tmp['target'] = target
-np.var(tmp['target'])
 tmp.groupby(by = column_name_2+'_'+column_name_1)['target'].agg('std')
-##
+tmp[column_name_2+'_'+column_name_1].nunique()
 
+sns.stripplot(x=column_name_2+'_'+column_name_1,y='target',data = tmp)
+#plt.show()
+stats = []
+for col in train.columns:
+    stats.append((col, train[col].nunique(), train[col].isnull().sum() * 100 / train.shape[0],
+                  train[col].value_counts(normalize=True, dropna=False).values[0] * 100, train[col].dtype))
+
+stats_df = pd.DataFrame(stats, columns=['Feature', 'Unique_values', 'Percentage of missing values',
+                                        'Percentage of values in the biggest category', 'type'])
+stats_df.sort_values('Percentage of missing values', ascending=False)[:10]
+
+##
+stats_df.type.unique()
+np.mean(data[stats_df[stats_df.type !='object'].Feature.values]).sort_values()##发现有数据变大
+# 些均值相似类似而且在A组中随着系数增加##相似数据为A27,A8,A10,A12,A15,A17,A19
+data[stats_df[stats_df.type !='object']]
+for i in range(0,stats_df[stats_df.type !='object'].shape[0]-1):
+    column_1 = stats_df[stats_df.type !='object']['Feature'].reset_index(drop = True)[i]
+    column_2 = stats_df[stats_df.type != 'object']['Feature'].reset_index(drop = True)[i+1]
+    data[column_2+'_'+column_1+'continuity'] = data[column_2] - data[column_1]
