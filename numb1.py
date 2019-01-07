@@ -76,25 +76,7 @@ data[0:10]
 
 ##日期处理
 
-def timeTranSecond(t):
-    try:
-        t, m, s = t.split(":")
-    except:
-        if t == '1900/1/9 7:00':
-            return 7 * 3600 / 3600
-        elif t == '1900/1/1 2:30':
-            return (2 * 3600 + 30 * 60) / 3600
-        elif t == -1:
-            return -1
-        else:
-            return 0
-    try:
-        tm = (int(t) * 3600 + int(m) * 60 + int(s)) / 3600
-    except:
-        return (30 * 60) / 3600
 
-column_name_1 = 'A5'
-column_name_2 = 'A9'
 def diff_time(df,column_name_1,column_name_2):
     TIME1 = df[column_name_1]
     TIME2 = df[column_name_2]
@@ -109,6 +91,15 @@ def diff_time(df,column_name_1,column_name_2):
     return diff_time
 
 
-column_name = column_name_2 +'_'+column_name_1
+time_columns = ['A5','A9','A11','A14','A16','A24','A26','B5','B7','A5','A26','A5','B7']
+for i in range(0,len(time_columns)-1):
+    column_name_1, column_name_2 = time_columns[i],time_columns[i+1]
+    print(column_name_1,column_name_2)
+    data[column_name_2+'_'+column_name_1] = data.apply(lambda df:diff_time(df,column_name_1,column_name_2),axis = 1)
+##查看不同的时间间隔是否会影响后的结果
+tmp = data[0:train.shape[0]]
+tmp['target'] = target
+np.var(tmp['target'])
+tmp.groupby(by = column_name_2+'_'+column_name_1)['target'].agg('std')
+##
 
-data.apply(lambda df:diff_time(df,column_name_1,column_name_2),axis = 1)
