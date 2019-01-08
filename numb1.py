@@ -1,25 +1,14 @@
 import numpy as np
 import pandas as pd
-import lightgbm as lgb
-import xgboost as xgb
-from sklearn.linear_model import BayesianRidge
-from sklearn.model_selection import KFold, RepeatedKFold
-from sklearn.preprocessing import OneHotEncoder, LabelEncoder
-from scipy import sparse
 import warnings
-import time
-import sys
-import os
 import re
-import datetime
-import matplotlib.pyplot as plt
 import seaborn as sns
+from scipy import sparse
 import plotly.offline as py
-py.init_notebook_mode(connected=True)
-import plotly.graph_objs as go
-import plotly.tools as tls
+from aadahaha import *
 from sklearn.metrics import mean_squared_error
-from sklearn.metrics import log_loss
+from sklearn.preprocessing import OneHotEncoder, LabelEncoder
+py.init_notebook_mode(connected=True)
 warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.filterwarnings("ignore")
 pd.set_option('display.max_columns',None)
@@ -75,27 +64,74 @@ data = pd.concat([train,test],axis=0,ignore_index=True)
 data[0:10]
 
 ##日期处理
+##将秒给去了
+def del_second(df,column_name):
+    try:
+        str_tmp = df[column_name]
+        t1, m1, s1 = str_tmp.split(":")
+        return t1 + ':' + m1
+    except:
+        return '_'
+
 
 
 def diff_time(df,column_name_1,column_name_2):
     TIME1 = df[column_name_1]
     TIME2 = df[column_name_2]
     try:
-        t1, m1, s1 = TIME1.split(":")
-        t2, m2, s2 = TIME2.split(":")
-        diff_time = (int(t2) - int(t1)) * 3600 + (int(m2) - int(m1)) * 60 + (int(s2) - int(s1))
+        t1, m1 = TIME1.split(":")
+        t2, m2 = TIME2.split(":")
+        diff_time = (int(t2) - int(t1)) * 3600 + (int(m2) - int(m1)) * 60
         if diff_time <= 0:
-            diff_time = (int(t2) + 24 - int(t1)) * 3600 + (int(m2) - int(m1)) * 60 + (int(s2) - int(s1))
+            diff_time = (int(t2) + 24 - int(t1)) * 3600 + (int(m2) - int(m1)) * 60
+    except:
+        diff_time = np.nan
+    return diff_time
+
+def diff_time2(df,column_name_1,column_name_2):
+    TIME1 = df[column_name_1]
+    TIME2 = df[column_name_2]
+    try:
+        t1, m1 = TIME1.split(":")
+        t2, m2= TIME2.split(":")
+        diff_time = (int(t2) - int(t1)) * 3600 + (int(m2) - int(m1)) * 60
+        if diff_time <= 0:
+            diff_time = (int(t2) + 24 - int(t1)) * 3600 + (int(m2) - int(m1)) * 60
     except:
         diff_time = np.nan
     return diff_time
 
 
+def splt_time(str_1,i):
+     try:
+         tmp = str_1.split('-')
+         if len(tmp) == 2:
+             return tmp[i]
+         else:
+             return -1
+     except:
+         return -1
+columns_tmp = []
+for cloumns_time_time  in ['A20', 'A28', 'B4', 'B9', 'B10', 'B11']:
+    data[cloumns_time_time + '_1'] = data.apply(lambda x: splt_time(x[cloumns_time_time], 0), axis=1)
+    data[cloumns_time_time + '_2'] = data.apply(lambda x: splt_time(x[cloumns_time_time], 1), axis=1)
+    columns_tmp.append(cloumns_time_time + '_1')
+    columns_tmp.append(cloumns_time_time + '_2')
+    del data[cloumns_time_time]
+
 time_columns = ['A5','A9','A11','A14','A16','A24','A26','B5','B7','A5','A26','A5','B7']
+for column_name in time_columns:
+    data[column_name] = data.apply(lambda df:del_second(df,column_name),axis = 1)
+time_columns.extend(columns_tmp)
+time_columns.sort()
 for i in range(0,len(time_columns)-1):
     column_name_1, column_name_2 = time_columns[i],time_columns[i+1]
     print(column_name_1,column_name_2)
     data[column_name_2+'_'+column_name_1] = data.apply(lambda df:diff_time(df,column_name_1,column_name_2),axis = 1)
+
+
+
+
 ##查看不同的时间间隔是否会影响后的结果
 tmp = data[0:train.shape[0]]
 tmp['target'] = target
@@ -117,8 +153,27 @@ stats_df.sort_values('Percentage of missing values', ascending=False)[:10]
 stats_df.type.unique()
 np.mean(data[stats_df[stats_df.type !='object'].Feature.values]).sort_values()##发现有数据变大
 # 些均值相似类似而且在A组中随着系数增加##相似数据为A27,A8,A10,A12,A15,A17,A19
-data[stats_df[stats_df.type !='object']]
+
 for i in range(0,stats_df[stats_df.type !='object'].shape[0]-1):
     column_1 = stats_df[stats_df.type !='object']['Feature'].reset_index(drop = True)[i]
     column_2 = stats_df[stats_df.type != 'object']['Feature'].reset_index(drop = True)[i+1]
     data[column_2+'_'+column_1+'continuity'] = data[column_2] - data[column_1]
+##修改某些异常数据
+data['A25'][data['样本id'] == 'sample_1590'] = data['A25'][data['样本id'] != 'sample_1590'].value_counts().values[0]
+##将一些变量转化为哑声变量
+
+
+
+
+data.fillna(-1,inplace=True)
+
+##
+
+data.head
+data.shape
+data.to_csv('middel_data1.csv')
+
+
+pd.get_dummies(data['A17'],prefix = 'A17',drop_first = True)
+
+pd.get_dummies(data['A17'])
