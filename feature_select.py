@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import xgboost as xgb
 from xgboost.sklearn import XGBClassifier,XGBRegressor
+from sklearn.metrics import mean_squared_error
 feature_num_limit = 200
 def get_division_feature_2(data, feature_name):
     new_feature = []
@@ -29,8 +30,59 @@ train = pd.read_csv('./jinnan_round1_train_20181227.csv', encoding = 'gb18030')
 test  = pd.read_csv('./jinnan_round1_testA_20181227.csv', encoding = 'gb18030')
 data.fillna(-1, inplace=True)
 data.head()
+data['样本id']
 f_list = data.columns.tolist()
-use_lesss = ['Unnamed: 0', '样本id', 'A5','A7','A11','A9','A14','A16','A20','A24','A26','A28','B4','B5','B7','B9','B10','B11']  # 删除非数值特征
+data.shape
+use_lesss = ['Unnamed: 0', '样本id']  # 删除非数值特征
+for fe in use_lesss:
+    f_list.remove(fe)
+target = train['收率']
+train = data[0:train.shape[0]]
+test = data[train.shape[0]:]
+train['target'] = target
+test.shape
+train_data = train[f_list]
+train_label = train['target']
+
+feature_name = f_list
+
+xgb_1 = XGBRegressor(learning_rate =0.01,
+        seed=27,
+        max_depth = 20,
+        gamma=0.01,
+        subsample=0.8,
+        missing= -1,
+        n_estimators = 3000,
+        reg_alpha=0.1,
+early_stopping_rounds=400,
+        n_jobs=8)
+def get_pic(model, feature_name):
+    ans = pd.DataFrame()
+    ans['name'] = feature_name
+    ans['score'] = model.feature_importances_
+    return ans.sort_values(by=['score'], ascending=False).reset_index(drop=True)
+
+xgb_1.fit(train_data, train_label, verbose=100)
+feature_importance = get_pic(xgb_1,feature_name)
+pre_data = xgb_1.predict(train_data)
+PRE1 = mean_squared_error(pre_data,target)
+df_1 = pd.DataFrame()
+df_1['pre_data'] = pre_data
+df_1['pre_data'] = target
+df_1.to_csv('shujuchakan.csv')
+
+
+list(feature_importance.iloc[0:20]['name'].values)
+data = get_division_feature_2(data,list(feature_importance.iloc[0:20]['name'].values))
+data.shape
+
+##再来一次训练去特征值最大的
+data.columns
+data.fillna(-1, inplace=True)
+train = pd.read_csv('./jinnan_round1_train_20181227.csv', encoding = 'gb18030')
+test  = pd.read_csv('./jinnan_round1_testA_20181227.csv', encoding = 'gb18030')
+f_list = data.columns.tolist()
+use_lesss = ['Unnamed: 0', '样本id']  # 删除非数值特征
 for fe in use_lesss:
     f_list.remove(fe)
 target = train['收率']
@@ -40,42 +92,54 @@ train['target'] = target
 
 train_data = train[f_list]
 train_label = train['target']
-
+train_data.shape
+test_data = test[f_list]
+test_data.shape
 feature_name = f_list
 
-xgb_1 = XGBRegressor(learning_rate =0.05,
+xgb_1 = XGBRegressor(learning_rate =0.01,
         seed=27,
-        max_depth = 4,
+        max_depth = 40,
         gamma=0.01,
         subsample=0.8,
         missing= -1,
-        n_estimators = 2000,
-        reg_lambda = 20,
-        n_jobs=8)
+        n_estimators = 3000,
+early_stopping_rounds=400,
+        reg_alpha=0.1,
+        n_jobs=3)
 def get_pic(model, feature_name):
     ans = pd.DataFrame()
     ans['name'] = feature_name
     ans['score'] = model.feature_importances_
     return ans.sort_values(by=['score'], ascending=False).reset_index(drop=True)
 
-xgb_1.fit(train_data, train_label, verbose=True)
+xgb_1.fit(train_data, train_label,  verbose=True)
 feature_importance = get_pic(xgb_1,feature_name)
+pre_data = xgb_1.predict(train_data)
+PRE2 = mean_squared_error(pre_data,target)
+df_2 = pd.DataFrame()
+df_2['pre_data'] = pre_data
+df_2['target'] = target
+df_2.to_csv('shujuchakan2.csv')
+
+test_pre = test[['样本id']]
+
+test_pre['A5'] = xgb_1.predict(test_data)
+test_pre.to_csv('sloution.csv')
+
 
 # --------------------------------------------------------------------------------------------
-
-
 # 再一个个往里加，来验证作用
 def find_best_feature(feature_name, cv_fold):
     xgb_model = XGBRegressor(learning_rate=0.01,
                          seed=27,
-                         max_depth=10,
+                         max_depth=20,
                          gamma=0.01,
                          subsample=0.8,
-                         missing=-1,
                          n_estimators=20000,
                         reg_alpha = 0.1,
                          #reg_lambda=2,
-                         n_jobs=8)
+                         n_jobs=3)
     dtrain = xgb.DMatrix(train_data[feature_name], label=train_label)
     xgb_param = xgb_model.get_xgb_params()
     bst_xgb = xgb.cv(xgb_param, dtrain, num_boost_round=xgb_model.get_params()['n_estimators'], nfold=cv_fold,
@@ -83,12 +147,12 @@ def find_best_feature(feature_name, cv_fold):
                           verbose_eval=100)
     m2 = bst_xgb['test-rmse-mean'].values[-1]
     return m2
-find_best_feature(feature_name,5)
+
 # 按重要性从前往后
 now_feature = []
 check = 0
-feature_num_limit = 200
-feature_importance = feature_importance['name']
+feature_num_limit = 120
+feature_importance = list(feature_importance['name'].values)
 for i in range(len(feature_importance)):
     if len(now_feature) >= feature_num_limit: break
     if i == 0:
