@@ -54,7 +54,7 @@ train = train[train['收率'] > 0.87]
 train = train[good_cols]
 good_cols.remove('收率')
 test = test[good_cols]
-
+test.shape
 # 合并数据集
 target = train['收率']
 print(train.columns)

@@ -28,6 +28,7 @@ def get_division_feature_2(data, feature_name):
 data = pd.read_csv('middel_data1.csv')
 train = pd.read_csv('./jinnan_round1_train_20181227.csv', encoding = 'gb18030')
 test  = pd.read_csv('./jinnan_round1_testA_20181227.csv', encoding = 'gb18030')
+train = train[train['收率'] > 0.87].reset_index(drop=True)
 data.fillna(-1, inplace=True)
 data.head()
 data['样本id']
@@ -43,7 +44,7 @@ train['target'] = target
 test.shape
 train_data = train[f_list]
 train_label = train['target']
-
+train_data.shape
 feature_name = f_list
 
 xgb_1 = XGBRegressor(learning_rate =0.01,
@@ -63,6 +64,7 @@ def get_pic(model, feature_name):
     return ans.sort_values(by=['score'], ascending=False).reset_index(drop=True)
 
 xgb_1.fit(train_data, train_label, verbose=100)
+
 feature_importance = get_pic(xgb_1,feature_name)
 pre_data = xgb_1.predict(train_data)
 PRE1 = mean_squared_error(pre_data,target)
