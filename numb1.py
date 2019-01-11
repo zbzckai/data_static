@@ -150,6 +150,9 @@ data_columns = ['样本id', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10', 'A11', 'A12', '
 data = data.loc[:, data_columns].copy()
 
 ###==================================上面为处理数据格式，缺失跟问题数据赋值了NAN======================================
+########################################===========================================================================================对数据进行合并，分组组排序，对数据进行合并，每三十合并
+
+
 
 ##=========================================================生成特征====================================
 ####=====================================================================================================================特征1 :时间差特征，分类逐次的时间差与阶段性的时间差
@@ -174,6 +177,35 @@ data_num_values = data[[x for x in data_columns if (x not in time_columns) and (
 # 些均值相似类似而且在A组中随着系数增加##相似数据为A27,A8,A10,A12,A15,A17,A19
 data_num_values['A25'] = data_num_values['A25'].astype(float)
 columns_tmp = data_num_values.columns
+for column_tmp_nem  in columns_tmp:
+    df = pd.DataFrame(data_num_values[column_tmp_nem].value_counts()).reset_index().sort_values(by='index', ascending=True).reset_index(
+    drop=True)
+    tmp_index = 0
+    tmp_value = 0
+    len_num = 0
+    new_index = []
+    for i in range(0, df.shape[0]):
+        len_num += 1
+        tmp_index = tmp_index + df.loc[i, 'index']
+        tmp_value = tmp_value + df.loc[i, column_tmp_nem]
+        if i == (df.shape[0] - 1):
+            new_index.extend([new_index[-1]] * (len_num))
+            break
+        if tmp_value > 20:
+            print(tmp_value)
+            new_index.extend([df.loc[np.argmax(df.loc[i:i + len_num - 1, column_tmp_nem]), 'index']] * (len_num))
+            tmp_index = 0
+            tmp_value = 0
+            len_num = 0
+    df['new_index'] = new_index
+    data_num_values[column_tmp_nem] = data_num_values[column_tmp_nem].map(dict(zip(df['index'], df['new_index'])))
+
+
+
+
+
+
+
 for i in range(0, len(columns_tmp) - 1):
     column_1 = columns_tmp[i]
     column_2 = columns_tmp[i + 1]
@@ -187,6 +219,8 @@ np.max(data_num_values_train.target)
 for i in data_num_values:
     print('==============================================', i)
     print(data_num_values_train.groupby(by=i).target.agg(['mean', 'count']))
+
+
 ####=====================================================================================================================特征4 增加样本id
 a = 'sample_1528'
 def sp(df):
@@ -203,7 +237,7 @@ data.columns
 
 ###
 #label encoder
-column_name = [x for x in data.columns if x not  in ['样本id']]
+column_name = [x for x in data.columns if x not  in ['样本id','id_value']]
 
 for f in column_name:
     data[f] = data[f].map(dict(zip(data[f].unique(), range(0, data[f].nunique()))))
@@ -236,6 +270,35 @@ train.drop(li + ['target'], axis=1, inplace=True)
 print(train.shape)
 print(test.shape)
 data  = pd.concat([train,test])
+
+column_name = [x for x in data.columns if (x not in ['样本id']) and (x not in [y for y in data.columns if 'mean'  in y ])]
+train = data[:train.shape[0]].copy()
+test = data[train.shape[0]:].copy()
+train['target'] = target
+train['intTarget'] = pd.cut(train['target'], 5, labels=False)
+train = pd.get_dummies(train, columns=['intTarget'])
+li = ['intTarget_0.0', 'intTarget_1.0', 'intTarget_2.0', 'intTarget_3.0', 'intTarget_4.0']
+mean_columns = []
+for f1 in column_name:
+    cate_rate = train[f1].value_counts(normalize=True, dropna=False).values[0]
+    if cate_rate < 0.90:
+        for f2 in li:
+            col_name =  'B14_' + f1 + "_" + f2 + '_mean'
+            mean_columns.append(col_name)
+            order_label = train.groupby([f1])[f2].mean()
+            train[col_name] = train['B14'].map(order_label)
+            miss_rate = train[col_name].isnull().sum() * 100 / train[col_name].shape[0]
+            if miss_rate > 0:
+                train = train.drop([col_name], axis=1)
+                mean_columns.remove(col_name)
+            else:
+                test[col_name] = test['B14'].map(order_label)
+
+train.drop(li + ['target'], axis=1, inplace=True)
+print(train.shape)
+print(test.shape)
+data  = pd.concat([train,test])
+
 data.shape
 ####+====================================================================================================================将一些变量转化为哑声变量
 # label encoder
@@ -257,37 +320,3 @@ for i in short_col:
 data = data[column_name]
 data.shape
 data.to_csv('middel_data1.csv')
-
-# for f in categorical_columns:
-#    data[f] = data[f].map(dict(zip(data[f].unique(), range(0, data[f].nunique()))))
-##查看不同的时间间隔是否会影响后的结果
-tmp = data[0:train.shape[0]]
-tmp['target'] = target
-tmp.groupby(by=column_name_2 + '_' + column_name_1)['target'].agg('std')
-tmp[column_name_2 + '_' + column_name_1].nunique()
-
-sns.stripplot(x=column_name_2 + '_' + column_name_1, y='target', data=tmp)
-# plt.show()
-
-##
-stats_df.type.unique()
-np.mean(data[stats_df[stats_df.type != 'object'].Feature.values]).sort_values()  ##发现有数据变大
-# 些均值相似类似而且在A组中随着系数增加##相似数据为A27,A8,A10,A12,A15,A17,A19
-
-for i in range(0, stats_df[stats_df.type != 'object'].shape[0] - 1):
-    column_1 = stats_df[stats_df.type != 'object']['Feature'].reset_index(drop=True)[i]
-    column_2 = stats_df[stats_df.type != 'object']['Feature'].reset_index(drop=True)[i + 1]
-    data[column_2 + '_' + column_1 + 'continuity'] = data[column_2] - data[column_1]
-
-##
-data.head()
-
-data.fillna(-1, inplace=True)
-
-##
-
-data.head
-data.shape
-data.to_csv('middel_data1.csv')
-
-pd.get_dummies(data['A17'])

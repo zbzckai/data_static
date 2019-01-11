@@ -8,6 +8,8 @@ import pandas as pd
 import xgboost as xgb
 from xgboost.sklearn import XGBClassifier,XGBRegressor
 from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import KFold, RepeatedKFold
+from sklearn.linear_model import BayesianRidge
 feature_num_limit = 200
 def get_division_feature_2(data, feature_name):
     new_feature = []
@@ -47,23 +49,28 @@ train_label = train['target']
 train_data.shape
 feature_name = f_list
 
-xgb_1 = XGBRegressor(learning_rate =0.01,
+xgb_1 = XGBRegressor(learning_rate =0.005,
         seed=27,
+        objective="reg:linear",
         max_depth = 20,
         gamma=0.01,
         subsample=0.8,
         missing= -1,
-        n_estimators = 3000,
-        reg_alpha=0.1,
-early_stopping_rounds=400,
+        n_estimators = 5000,
+        reg_alpha=0.05,
+colsample_bytree=0.8,
+        silent=True,
+        early_stopping_rounds=200,
         n_jobs=8)
+
+
 def get_pic(model, feature_name):
     ans = pd.DataFrame()
     ans['name'] = feature_name
     ans['score'] = model.feature_importances_
     return ans.sort_values(by=['score'], ascending=False).reset_index(drop=True)
 
-xgb_1.fit(train_data, train_label, verbose=100)
+xgb_1.fit(train_data, train_label)
 
 feature_importance = get_pic(xgb_1,feature_name)
 pre_data = xgb_1.predict(train_data)
@@ -72,9 +79,9 @@ df_1 = pd.DataFrame()
 df_1['pre_data'] = pre_data
 df_1['pre_data'] = target
 df_1.to_csv('shujuchakan.csv')
+FEATURE_1 = feature_importance
 
-
-list(feature_importance.iloc[0:20]['name'].values)
+list(feature_importance.iloc[0:40]['name'].values)
 data = get_division_feature_2(data,list(feature_importance.iloc[0:20]['name'].values))
 data.shape
 
@@ -84,6 +91,7 @@ data.fillna(-1, inplace=True)
 train = pd.read_csv('./jinnan_round1_train_20181227.csv', encoding = 'gb18030')
 test  = pd.read_csv('./jinnan_round1_testA_20181227.csv', encoding = 'gb18030')
 f_list = data.columns.tolist()
+train = train[train['收率'] > 0.87].reset_index(drop=True)
 use_lesss = ['Unnamed: 0', '样本id']  # 删除非数值特征
 for fe in use_lesss:
     f_list.remove(fe)
@@ -98,24 +106,27 @@ train_data.shape
 test_data = test[f_list]
 test_data.shape
 feature_name = f_list
-
-xgb_1 = XGBRegressor(learning_rate =0.01,
+xgb_1 = XGBRegressor(learning_rate =0.005,
         seed=27,
-        max_depth = 40,
-        gamma=0.01,
+        objective="reg:linear",
+        max_depth = 20,
+        #gamma=0.01,
         subsample=0.8,
+        colsample_bytree=0.8,
         missing= -1,
-        n_estimators = 3000,
-early_stopping_rounds=400,
-        reg_alpha=0.1,
-        n_jobs=3)
+        n_estimators = 5000,
+        reg_alpha=0.05,
+        silent=True,
+        early_stopping_rounds=200,
+        n_jobs=8)
+
 def get_pic(model, feature_name):
     ans = pd.DataFrame()
     ans['name'] = feature_name
     ans['score'] = model.feature_importances_
     return ans.sort_values(by=['score'], ascending=False).reset_index(drop=True)
 
-xgb_1.fit(train_data, train_label,  verbose=True)
+xgb_1.fit(train_data, train_label)
 feature_importance = get_pic(xgb_1,feature_name)
 pre_data = xgb_1.predict(train_data)
 PRE2 = mean_squared_error(pre_data,target)
@@ -130,31 +141,179 @@ test_pre['A5'] = xgb_1.predict(test_data)
 test_pre.to_csv('sloution.csv')
 
 
-# --------------------------------------------------------------------------------------------
+data.shape
+###############################=============================================================================================================交叉验证的数据训练
+data = pd.read_csv('middel_data1.csv')
+data.fillna(-1, inplace=True)
+train = pd.read_csv('./jinnan_round1_train_20181227.csv', encoding = 'gb18030')
+test  = pd.read_csv('./jinnan_round1_testA_20181227.csv', encoding = 'gb18030')
+f_list = data.columns.tolist()
+train = train[train['收率'] > 0.87].reset_index(drop=True)
+use_lesss = ['Unnamed: 0', '样本id']  # 删除非数值特征
+for fe in use_lesss:
+    f_list.remove(fe)
+target = train['收率']
+X_train = data[0:train.shape[0]][f_list]
+X_test = data[train.shape[0]:][f_list]
+train['target'] = target
+import lightgbm as lgb
+
+y_train = target.values
+
+param = {'num_leaves': 120,
+         'min_data_in_leaf': 30,
+         'objective': 'regression',
+         'max_depth': -1,
+         'learning_rate': 0.01,
+         "min_child_samples": 30,
+         "boosting": "gbdt",
+         "feature_fraction": 0.9,
+         "bagging_freq": 1,
+         "bagging_fraction": 0.9,
+         "bagging_seed": 11,
+         "metric": 'mse',
+         #"lambda_l1": 0.1,
+         "verbosity": -1}
+folds = KFold(n_splits=5, shuffle=True, random_state=2018)
+oof_lgb = np.zeros(len(train))
+predictions_lgb = np.zeros(len(test))
+
+for fold_, (trn_idx, val_idx) in enumerate(folds.split(X_train, y_train)):
+    print("fold n°{}".format(fold_ + 1))
+    trn_data = lgb.Dataset(X_train.loc[trn_idx], y_train[trn_idx])
+    val_data = lgb.Dataset(X_train.loc[val_idx], y_train[val_idx])
+
+    num_round = 10000
+    clf = lgb.train(param, trn_data, num_round, valid_sets=[trn_data, val_data], verbose_eval=200,
+                    early_stopping_rounds=100)
+    oof_lgb[val_idx] = clf.predict(X_train.loc[val_idx], num_iteration=clf.best_iteration)
+
+    predictions_lgb += clf.predict(X_test, num_iteration=clf.best_iteration) / folds.n_splits
+
+print("CV score: {:<8.8f}".format(mean_squared_error(oof_lgb, target)))
+
+len(clf.feature_importance())
+
+
+def xgb_train(data,train,KFold_num = 5):
+    f_list = data.columns.tolist()
+    use_lesss = ['Unnamed: 0', '样本id']  # 删除非数值特征
+    for fe in use_lesss:
+        f_list.remove(fe)
+    target = train['target']
+    train = data[0:train.shape[0]]
+    test = data[train.shape[0]:]
+    train['target'] = target
+    test.shape
+    train_data = train[f_list].reset_index(drop = True)
+    train_label = train['target']
+    train_data.shape
+    feature_name = f_list
+    len(feature_name)
+    test_data = test[f_list].reset_index(drop = True)
+    xgb_params = {'eta': 0.005, 'max_depth': 20, 'subsample': 0.8, 'colsample_bytree': 0.8,
+          'objective': 'reg:linear', 'eval_metric': 'rmse', 'silent': True, 'nthread': 4}##,'reg_alpha':0.0005
+    folds = KFold(n_splits=KFold_num, shuffle=True, random_state=2018)
+    oof_xgb = np.zeros(len(train))
+    predictions_xgb = np.zeros(len(test))
+
+    for fold_, (trn_idx, val_idx) in enumerate(folds.split(train_data, train_label)):
+        print("fold n°{}".format(fold_ + 1))
+        trn_data = xgb.DMatrix(train_data.iloc[trn_idx], train_label[trn_idx])
+        val_data = xgb.DMatrix(train_data.iloc[val_idx], train_label[val_idx])
+
+        watchlist = [(trn_data, 'train'), (val_data, 'valid_data')]
+        clf = xgb.train(dtrain=trn_data, num_boost_round=20000, evals=watchlist, early_stopping_rounds=200,
+                        verbose_eval=100, params=xgb_params)
+        oof_xgb[val_idx] = clf.predict(xgb.DMatrix(train_data.iloc[val_idx]), ntree_limit=clf.best_ntree_limit)
+        predictions_xgb += clf.predict(xgb.DMatrix(test_data), ntree_limit=clf.best_ntree_limit) / folds.n_splits
+    importance = clf.get_fscore()
+    list(importance.keys())
+    importance.values()
+    importance = pd.DataFrame({'feature': list(importance.keys()), 'importance_values': list(importance.values())})
+    importance = importance.sort_values('importance_values', ascending=False)
+    print("CV score: {:<8.8f}".format(mean_squared_error(oof_xgb, target)))
+
+    return predictions_xgb,importance,oof_xgb,predictions_xgb
+
+
+predictions_xgb, feature_importance,oof_xgb,predictions_xgb= xgb_train(data,train,5)
+data.shape
+list(feature_importance.iloc[0:20]['feature'].values)
+##data = get_division_feature_2(data,list(feature_importance.iloc[0:20]['feature'].values))
+
+
+# 将lgb和xgb的结果进行stacking
+train_stack = np.vstack([oof_lgb, oof_xgb]).transpose()
+test_stack = np.vstack([predictions_lgb, predictions_xgb]).transpose()
+
+folds_stack = RepeatedKFold(n_splits=5, n_repeats=2, random_state=4590)
+oof_stack = np.zeros(train_stack.shape[0])
+predictions = np.zeros(test_stack.shape[0])
+
+for fold_, (trn_idx, val_idx) in enumerate(folds_stack.split(train_stack, target)):
+    print("fold {}".format(fold_))
+    trn_data, trn_y = train_stack[trn_idx], target.iloc[trn_idx].values
+    val_data, val_y = train_stack[val_idx], target.iloc[val_idx].values
+
+    clf_3 = BayesianRidge()
+    clf_3.fit(trn_data, trn_y)
+
+    oof_stack[val_idx] = clf_3.predict(val_data)
+    predictions += clf_3.predict(test_stack) / 10
+
+mean_squared_error(target.values, oof_stack)
+df_2 = pd.DataFrame()
+df_2['pre_data'] = oof_stack
+df_2['target'] = target.values
+df_2.to_csv('shujuchakan2.csv')
+
+pd.DataFrame()
+solution_1 = pd.read_csv('jinnan_round1_submit_20181227.csv',header=None)
+solution_1['1'] = predictions
+solution_1.to_csv('solution.csv')
+
+#===========================================================================================================================================将特征一个一个的往里面塞，进行特征筛选
 # 再一个个往里加，来验证作用
+f_list = data.columns.tolist()
+use_lesss = ['Unnamed: 0', '样本id']  # 删除非数值特征
+for fe in use_lesss:
+    f_list.remove(fe)
+target = train['收率']
+train = data[0:train.shape[0]]
+test = data[train.shape[0]:]
+train['target'] = target
+test.shape
+train_data = train[f_list].reset_index(drop=True)
+train_label = train['target']
+train_data.shape
+feature_name = f_list
+test_data = test[f_list].reset_index(drop=True)
+
 def find_best_feature(feature_name, cv_fold):
-    xgb_model = XGBRegressor(learning_rate=0.01,
+    xgb_model = XGBRegressor(learning_rate=0.005,
                          seed=27,
                          max_depth=20,
                          gamma=0.01,
                          subsample=0.8,
                          n_estimators=20000,
-                        reg_alpha = 0.1,
+                        #reg_alpha = 0.1,
                          #reg_lambda=2,
                          n_jobs=3)
     dtrain = xgb.DMatrix(train_data[feature_name], label=train_label)
     xgb_param = xgb_model.get_xgb_params()
     bst_xgb = xgb.cv(xgb_param, dtrain, num_boost_round=xgb_model.get_params()['n_estimators'], nfold=cv_fold,
-                          metrics='rmse', early_stopping_rounds=400, show_stdv=False,
+                          metrics='rmse', early_stopping_rounds=200, show_stdv=False,
                           verbose_eval=100)
     m2 = bst_xgb['test-rmse-mean'].values[-1]
+
     return m2
 
 # 按重要性从前往后
 now_feature = []
 check = 0
 feature_num_limit = 120
-feature_importance = list(feature_importance['name'].values)
+feature_importance = list(feature_importance['feature'].values)
 for i in range(len(feature_importance)):
     if len(now_feature) >= feature_num_limit: break
     if i == 0:
