@@ -53,7 +53,7 @@ xgb_1 = XGBRegressor(learning_rate =0.01,
         gamma=0.01,
         subsample=0.8,
         missing= -1,
-        n_estimators = 3000,
+        n_estimators = 2000,
         reg_alpha=0.1,
 early_stopping_rounds=400,
         n_jobs=8)
@@ -83,6 +83,7 @@ data.columns
 data.fillna(-1, inplace=True)
 train = pd.read_csv('./jinnan_round1_train_20181227.csv', encoding = 'gb18030')
 test  = pd.read_csv('./jinnan_round1_testA_20181227.csv', encoding = 'gb18030')
+train = train[train['收率'] > 0.87].reset_index(drop=True)
 f_list = data.columns.tolist()
 use_lesss = ['Unnamed: 0', '样本id']  # 删除非数值特征
 for fe in use_lesss:
@@ -105,7 +106,7 @@ xgb_1 = XGBRegressor(learning_rate =0.01,
         gamma=0.01,
         subsample=0.8,
         missing= -1,
-        n_estimators = 3000,
+        n_estimators = 4000,
 early_stopping_rounds=400,
         reg_alpha=0.1,
         n_jobs=3)
