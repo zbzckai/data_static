@@ -6,8 +6,11 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
 =======
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/feature_select.py" afterPath="$PROJECT_DIR$/feature_select.py" />
+<<<<<<< HEAD
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/numb1.py" afterPath="$PROJECT_DIR$/numb1.py" />
 >>>>>>> 3aa92693847a911ea8bfe554f41fb037095f70e7
+=======
+>>>>>>> d071ba2d5700de709aba32f7a8877e7b2b7fc868
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -26,12 +29,17 @@
         <entry file="file://$PROJECT_DIR$/numb1.py">
           <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
+<<<<<<< HEAD
             <state relative-caret-position="380">
               <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
 =======
             <state relative-caret-position="-1254">
               <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="33" />
 >>>>>>> 3aa92693847a911ea8bfe554f41fb037095f70e7
+=======
+            <state relative-caret-position="4199">
+              <caret line="230" column="37" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="322" selection-end-column="0" />
+>>>>>>> d071ba2d5700de709aba32f7a8877e7b2b7fc868
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -43,11 +51,16 @@
         <entry file="file://$PROJECT_DIR$/feature_select.py">
           <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
+<<<<<<< HEAD
             <state relative-caret-position="19">
               <caret line="2816" column="4" lean-forward="false" selection-start-line="2816" selection-start-column="4" selection-end-line="2816" selection-end-column="4" />
 =======
             <state relative-caret-position="381">
               <caret line="69" column="42" lean-forward="true" selection-start-line="69" selection-start-column="42" selection-end-line="69" selection-end-column="42" />
+=======
+            <state relative-caret-position="345">
+              <caret line="286" column="49" lean-forward="true" selection-start-line="286" selection-start-column="49" selection-end-line="286" selection-end-column="49" />
+>>>>>>> d071ba2d5700de709aba32f7a8877e7b2b7fc868
               <folding>
                 <element signature="e#103#121#0" expanded="true" />
               </folding>
@@ -55,11 +68,43 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="parsers.py" pinned="false" current-in-tab="false">
+        <entry file="file://C:/Users/Administrator/AppData/Local/Programs/Python/Python36/Lib/site-packages/pandas/io/parsers.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="12825">
+              <caret line="718" column="0" lean-forward="false" selection-start-line="718" selection-start-column="0" selection-end-line="718" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="numb2.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/numb2.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1729">
+              <caret line="107" column="0" lean-forward="false" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
+              <folding>
+                <element signature="e#96#114#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="interactiveshell.py" pinned="false" current-in-tab="false">
+        <entry file="file://C:/Users/Administrator/AppData/Local/Programs/Python/Python36/Lib/site-packages/IPython/core/interactiveshell.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="54853">
+              <caret line="2960" column="0" lean-forward="false" selection-start-line="2960" selection-start-column="0" selection-end-line="2960" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="sklearn.py" pinned="false" current-in-tab="false">
         <entry file="file://C:/Users/Administrator/AppData/Local/Programs/Python/Python36/Lib/site-packages/xgboost/sklearn.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-944">
-              <caret line="51" column="6" lean-forward="false" selection-start-line="51" selection-start-column="6" selection-end-line="51" selection-end-column="6" />
+            <state relative-caret-position="2280">
+              <caret line="130" column="48" lean-forward="false" selection-start-line="130" selection-start-column="30" selection-end-line="130" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -88,39 +133,14 @@
       <file leaf-file-name="aadahaha.py" pinned="false" current-in-tab="false">
         <entry file="file://C:/Users/Administrator/AppData/Local/Programs/Python/Python36/Lib/site-packages/aadahaha.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1216">
-              <caret line="65" column="30" lean-forward="false" selection-start-line="65" selection-start-column="25" selection-end-line="65" selection-end-column="30" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="reshape.py" pinned="false" current-in-tab="false">
-        <entry file="file://C:/Users/Administrator/AppData/Local/Programs/Python/Python36/Lib/site-packages/pandas/core/reshape/reshape.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="14649">
-              <caret line="800" column="33" lean-forward="false" selection-start-line="800" selection-start-column="27" selection-end-line="800" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="jdataxunlain.py" pinned="false" current-in-tab="false">
-        <entry file="file://E:/ziliao/jdata/别人的/jdataxunlain.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1501">
-              <caret line="95" column="30" lean-forward="false" selection-start-line="95" selection-start-column="29" selection-end-line="95" selection-end-column="30" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ceshi2.py" pinned="false" current-in-tab="false">
-        <entry file="file://E:/ziliao/jdata/jdata/ceshi2.py">
-          <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="8436">
               <caret line="455" column="69" lean-forward="false" selection-start-line="455" selection-start-column="40" selection-end-line="455" selection-end-column="69" />
 >>>>>>> 3aa92693847a911ea8bfe554f41fb037095f70e7
+=======
+            <state relative-caret-position="1216">
+              <caret line="65" column="30" lean-forward="false" selection-start-line="65" selection-start-column="25" selection-end-line="65" selection-end-column="30" />
+>>>>>>> d071ba2d5700de709aba32f7a8877e7b2b7fc868
               <folding />
             </state>
           </provider>
@@ -130,7 +150,7 @@
         <entry file="file://$PROJECT_DIR$/numb1.ipynb">
           <provider selected="true" editor-type-id="ipnb-editor">
             <state>
-              <selected id="21" />
+              <selected id="23" />
             </state>
           </provider>
         </entry>
@@ -147,6 +167,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>con</find>
+      <find>id_value</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -157,6 +178,12 @@
       <list>
         <option value="$PROJECT_DIR$/shujutancha.py" />
         <option value="$PROJECT_DIR$/numb1.ipynb" />
+        <option value="E:/work/plant_train - 副本/retrain1.py" />
+        <option value="E:/work/plant_train - 副本 - 副本/retrain1.py" />
+        <option value="E:/work/plant_train - 副本 - 副本 (2)/retrain1.py" />
+        <option value="E:/work/丁香/retrain1.py" />
+        <option value="E:/work/pacture_more/mazha.py" />
+        <option value="$PROJECT_DIR$/numb2.py" />
         <option value="$PROJECT_DIR$/numb1.py" />
 <<<<<<< HEAD
         <option value="$PROJECT_DIR$/numb1.ipynb" />
@@ -193,6 +220,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -208,8 +236,11 @@
         </subPane>
       </pane>
       <pane id="Scope" />
+<<<<<<< HEAD
       <pane id="Scratches" />
       <pane id="Scope" />
+=======
+>>>>>>> d071ba2d5700de709aba32f7a8877e7b2b7fc868
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -446,14 +477,24 @@
     </task>
     <servers />
   </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18176973" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18550107" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
 <<<<<<< HEAD
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32543445" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -463,19 +504,30 @@
 =======
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5146262" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+=======
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5124594" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+>>>>>>> d071ba2d5700de709aba32f7a8877e7b2b7fc868
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+<<<<<<< HEAD
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
 >>>>>>> 3aa92693847a911ea8bfe554f41fb037095f70e7
+=======
+>>>>>>> d071ba2d5700de709aba32f7a8877e7b2b7fc868
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
 <<<<<<< HEAD
+<<<<<<< HEAD
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
 =======
 >>>>>>> 3aa92693847a911ea8bfe554f41fb037095f70e7
+=======
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+>>>>>>> d071ba2d5700de709aba32f7a8877e7b2b7fc868
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -493,6 +545,7 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/numb1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -515,6 +568,8 @@
         </state>
       </provider>
     </entry>
+=======
+>>>>>>> d071ba2d5700de709aba32f7a8877e7b2b7fc868
     <entry file="file://C:/Users/Administrator/AppData/Local/Programs/Python/Python36/Lib/site-packages/xgboost/sklearn.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4332">
@@ -551,7 +606,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="14649">
           <caret line="800" column="33" lean-forward="false" selection-start-line="800" selection-start-column="27" selection-end-line="800" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -559,7 +613,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1501">
           <caret line="95" column="30" lean-forward="false" selection-start-line="95" selection-start-column="29" selection-end-line="95" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -567,7 +620,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8436">
           <caret line="455" column="69" lean-forward="false" selection-start-line="455" selection-start-column="40" selection-end-line="455" selection-end-column="69" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -607,7 +659,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="14649">
           <caret line="800" column="33" lean-forward="false" selection-start-line="800" selection-start-column="27" selection-end-line="800" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -622,7 +673,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -640,7 +690,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1501">
           <caret line="95" column="30" lean-forward="false" selection-start-line="95" selection-start-column="29" selection-end-line="95" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -648,8 +697,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8436">
           <caret line="455" column="69" lean-forward="false" selection-start-line="455" selection-start-column="40" selection-end-line="455" selection-end-column="69" />
+<<<<<<< HEAD
 >>>>>>> 3aa92693847a911ea8bfe554f41fb037095f70e7
           <folding />
+=======
+>>>>>>> d071ba2d5700de709aba32f7a8877e7b2b7fc868
         </state>
       </provider>
     </entry>
@@ -726,7 +778,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -755,7 +806,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8436">
           <caret line="455" column="69" lean-forward="false" selection-start-line="455" selection-start-column="40" selection-end-line="455" selection-end-column="69" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -763,7 +813,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1501">
           <caret line="95" column="30" lean-forward="false" selection-start-line="95" selection-start-column="29" selection-end-line="95" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -771,6 +820,39 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="14649">
           <caret line="800" column="33" lean-forward="false" selection-start-line="800" selection-start-column="27" selection-end-line="800" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/work/plant_train - 副本/retrain1.py" />
+    <entry file="file://E:/work/plant_train - 副本/转化为拼音_样本分割_样本量扩充.py" />
+    <entry file="file://E:/work/plant_train - 副本/lol.py" />
+    <entry file="file://E:/work/plant_train - 副本 - 副本 (2)/retrain1.py" />
+    <entry file="file://E:/work/plant_train - 副本 - 副本/retrain1.py" />
+    <entry file="file://E:/work/丁香/retrain1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="1200" column="22" lean-forward="true" selection-start-line="1200" selection-start-column="22" selection-end-line="1200" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/work/pacture_more/mazha.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="43" column="50" lean-forward="false" selection-start-line="43" selection-start-column="50" selection-end-line="43" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Users/Administrator/AppData/Local/Programs/Python/Python36/Lib/site-packages/xgboost/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Users/Administrator/AppData/Local/Programs/Python/Python36/Lib/site-packages/IPython/core/interactiveshell.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54853">
+          <caret line="2960" column="0" lean-forward="false" selection-start-line="2960" selection-start-column="0" selection-end-line="2960" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -801,30 +883,39 @@
     </entry>
     <entry file="file://C:/Users/Administrator/AppData/Local/Programs/Python/Python36/Lib/site-packages/xgboost/sklearn.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-944">
-          <caret line="51" column="6" lean-forward="false" selection-start-line="51" selection-start-column="6" selection-end-line="51" selection-end-column="6" />
+        <state relative-caret-position="2280">
+          <caret line="130" column="48" lean-forward="false" selection-start-line="130" selection-start-column="30" selection-end-line="130" selection-end-column="48" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/numb1.ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
-        <state>
-          <selected id="16" />
+    <entry file="file://$PROJECT_DIR$/numb2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1729">
+          <caret line="107" column="0" lean-forward="false" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
+          <folding>
+            <element signature="e#96#114#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/numb1.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="-1254">
           <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="33" />
 >>>>>>> 3aa92693847a911ea8bfe554f41fb037095f70e7
+=======
+        <state relative-caret-position="4199">
+          <caret line="230" column="37" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="322" selection-end-column="0" />
+>>>>>>> d071ba2d5700de709aba32f7a8877e7b2b7fc868
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
 <<<<<<< HEAD
     <entry file="file://D:/soft/python/Lib/site-packages/numpy/core/fromnumeric.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -845,10 +936,24 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="19">
           <caret line="2816" column="4" lean-forward="false" selection-start-line="2816" selection-start-column="4" selection-end-line="2816" selection-end-column="4" />
+=======
+    <entry file="file://$PROJECT_DIR$/numb1.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Users/Administrator/AppData/Local/Programs/Python/Python36/Lib/site-packages/pandas/io/parsers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="12825">
+          <caret line="718" column="0" lean-forward="false" selection-start-line="718" selection-start-column="0" selection-end-line="718" selection-end-column="0" />
+>>>>>>> d071ba2d5700de709aba32f7a8877e7b2b7fc868
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/numb1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="380">
@@ -856,10 +961,12 @@
           <folding>
             <element signature="e#0#18#0" expanded="true" />
 =======
+=======
+>>>>>>> d071ba2d5700de709aba32f7a8877e7b2b7fc868
     <entry file="file://$PROJECT_DIR$/feature_select.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="69" column="42" lean-forward="true" selection-start-line="69" selection-start-column="42" selection-end-line="69" selection-end-column="42" />
+        <state relative-caret-position="345">
+          <caret line="286" column="49" lean-forward="true" selection-start-line="286" selection-start-column="49" selection-end-line="286" selection-end-column="49" />
           <folding>
             <element signature="e#103#121#0" expanded="true" />
 >>>>>>> 3aa92693847a911ea8bfe554f41fb037095f70e7
