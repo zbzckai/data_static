@@ -82,25 +82,11 @@ def diff_time(df, column_name_1, column_name_2):
     try:
         t1, m1 = TIME1.split(":")
         t2, m2 = TIME2.split(":")
-        diff_time = (int(t2) - int(t1)) * 3600 + (int(m2) - int(m1)) * 60
-        if diff_time <= 0:
-            diff_time = (int(t2) + 24 - int(t1)) * 3600 + (int(m2) - int(m1)) * 60
+        diff_time = ((int(t2) - int(t1)) * 3600 + (int(m2) - int(m1)) * 60)/3600
+        if diff_time < 0:
+            diff_time = ((int(t2) + 24 - int(t1)) * 3600 + (int(m2) - int(m1)) * 60)/3600
     except:
-        diff_time = np.nan
-    return diff_time
-
-
-def diff_time2(df, column_name_1, column_name_2):
-    TIME1 = df[column_name_1]
-    TIME2 = df[column_name_2]
-    try:
-        t1, m1 = TIME1.split(":")
-        t2, m2 = TIME2.split(":")
-        diff_time = (int(t2) - int(t1)) * 3600 + (int(m2) - int(m1)) * 60
-        if diff_time <= 0:
-            diff_time = (int(t2) + 24 - int(t1)) * 3600 + (int(m2) - int(m1)) * 60
-    except:
-        diff_time = np.nan
+        diff_time = -1
     return diff_time
 
 
@@ -111,7 +97,7 @@ def diff_time3(df, column_name_1):
         diff_time = (int(t1) * 60 + int(m1))
         return np.ceil(diff_time / 240)
     except:
-        diff_time = np.nan
+        diff_time = -1
     return diff_time
 
 
@@ -162,6 +148,7 @@ for i in range(0, len(time_columns) - 1):
     data[column_name_2 + '_' + column_name_1] = data.apply(lambda df: diff_time(df, column_name_1, column_name_2),
                                                            axis=1)
 ##A阶段开始的时间到A阶段结束时间A(START,END) A-B(END,ST) B (S-E)
+diff_time(data.loc[1525], 'A5', 'A28_2')
 data['A28_2' + '_' + 'A5'] = data.apply(lambda df: diff_time(df, 'A5', 'A28_2'), axis=1)
 data['B4_1' + '_' + 'A28_2'] = data.apply(lambda df: diff_time(df, 'A28_2', 'B4_1'), axis=1)
 data['B11_2' + '_' + 'B4_1'] = data.apply(lambda df: diff_time(df, 'B4_1', 'B11_2'), axis=1)
@@ -209,7 +196,7 @@ for column_tmp_nem  in columns_tmp:
 for i in range(0, len(columns_tmp) - 1):
     column_1 = columns_tmp[i]
     column_2 = columns_tmp[i + 1]
-    data_num_values[column_2 + '_' + column_1 + 'continuity'] = data_num_values[column_2] - data_num_values[column_1]
+    data_num_values[column_2 + '_' + column_1 + '_continuity'] = data_num_values[column_2] - data_num_values[column_1]
 print(data_num_values.shape)
 data_num_values_train = data_num_values[0:train.shape[0]]
 data_num_values_train['target'] = target
@@ -239,8 +226,8 @@ data.columns
 #label encoder
 column_name = [x for x in data.columns if x not  in ['样本id','id_value']]
 
-for f in column_name:
-    data[f] = data[f].map(dict(zip(data[f].unique(), range(0, data[f].nunique()))))
+#for f in column_name:
+#    data[f] = data[f].map(dict(zip(data[f].unique(), range(0, data[f].nunique()))))
 ##
 ####=====================================================================================================================加入分组目标后各分类标签的均值特征
 column_name = [x for x in data.columns if x not  in ['样本id']]
@@ -304,19 +291,23 @@ data.shape
 # label encoder
 long_col = []
 short_col = []
-data.fillna(-999)
+data.fillna(-1)
 column_name_1 = [x for x in data.columns if 'mean' not in x ]
+
 for col_name_tmp in column_name_1:
     print(data[col_name_tmp].nunique())
     if data[col_name_tmp].nunique() <= 100:
-        tmp = pd.get_dummies(data[col_name_tmp], prefix=col_name_tmp, drop_first=True)
+        tmp = pd.get_dummies(data[col_name_tmp], prefix=col_name_tmp)##, drop_first=True
         short_col.append(col_name_tmp)
         data = pd.concat([data,tmp],axis=1)
     else:
         long_col.append(col_name_tmp)
 column_name = list(data.columns)
-for i in short_col:
-    column_name.remove(i)
+#for i in short_col:
+#    column_name.remove(i)
 data = data[column_name]
 data.shape
 data.to_csv('middel_data1.csv')
+data.shape
+
+data.loc[1500:,['样本id','A28_2' + '_' + 'A5']]

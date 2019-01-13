@@ -137,6 +137,10 @@ def getDuration(se):
 
 for f in ['A20', 'A28', 'B4', 'B9', 'B10', 'B11']:
     data[f] = data.apply(lambda df: getDuration(df[f]), axis=1)
+######===================================================================================新增特征
+
+
+
 
 data['样本id'] = data['样本id'].apply(lambda x: int(x.split('_')[1]))
 
@@ -181,8 +185,9 @@ X_test = test[mean_columns + numerical_columns].values
 # one hot
 enc = OneHotEncoder()
 for f in categorical_columns:
+    print(f)
     enc.fit(data[f].values.reshape(-1, 1))
-    X_train = sparse.hstack((X_train, enc.transform(train[f].values.reshape(-1, 1))), 'csr')
+    X_train = sparse.hstack((X_train, enc.transform(train[f].values.reshape(-1, 1))), 'csr')##水平拼接数组
     X_test = sparse.hstack((X_test, enc.transform(test[f].values.reshape(-1, 1))), 'csr')
 print(X_train.shape)
 print(X_test.shape)

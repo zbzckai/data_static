@@ -56,18 +56,13 @@ xgb_1 = XGBRegressor(learning_rate =0.005,
         gamma=0.01,
         subsample=0.8,
         missing= -1,
-<<<<<<< HEAD
-        n_estimators = 2000,
-        reg_alpha=0.1,
-early_stopping_rounds=400,
-=======
-        n_estimators = 5000,
+n_estimators = 5000,
         reg_alpha=0.05,
 colsample_bytree=0.8,
         silent=True,
         early_stopping_rounds=200,
->>>>>>> d071ba2d5700de709aba32f7a8877e7b2b7fc868
-        n_jobs=8)
+        n_jobs=8
+)
 
 
 def get_pic(model, feature_name):
@@ -121,19 +116,11 @@ xgb_1 = XGBRegressor(learning_rate =0.005,
         subsample=0.8,
         colsample_bytree=0.8,
         missing= -1,
-<<<<<<< HEAD
         n_estimators = 4000,
 early_stopping_rounds=400,
         reg_alpha=0.1,
         n_jobs=3)
-=======
-        n_estimators = 5000,
-        reg_alpha=0.05,
-        silent=True,
-        early_stopping_rounds=200,
-        n_jobs=8)
 
->>>>>>> d071ba2d5700de709aba32f7a8877e7b2b7fc868
 def get_pic(model, feature_name):
     ans = pd.DataFrame()
     ans['name'] = feature_name
@@ -186,7 +173,7 @@ param = {'num_leaves': 120,
          "bagging_fraction": 0.9,
          "bagging_seed": 11,
          "metric": 'mse',
-         #"lambda_l1": 0.1,
+         "lambda_l1": 0.1,
          "verbosity": -1}
 folds = KFold(n_splits=5, shuffle=True, random_state=2018)
 oof_lgb = np.zeros(len(train))
@@ -226,7 +213,7 @@ def xgb_train(data,train,KFold_num = 5):
     len(feature_name)
     test_data = test[f_list].reset_index(drop = True)
     xgb_params = {'eta': 0.005, 'max_depth': 20, 'subsample': 0.8, 'colsample_bytree': 0.8,
-          'objective': 'reg:linear', 'eval_metric': 'rmse', 'silent': True, 'nthread': 4}##,'reg_alpha':0.0005
+          'objective': 'reg:linear', 'eval_metric': 'rmse', 'silent': True, 'nthread': 4,'reg_alpha':0.05}##
     folds = KFold(n_splits=KFold_num, shuffle=True, random_state=2018)
     oof_xgb = np.zeros(len(train))
     predictions_xgb = np.zeros(len(test))
@@ -281,34 +268,45 @@ df_2 = pd.DataFrame()
 df_2['pre_data'] = oof_stack
 df_2['target'] = target.values
 df_2.to_csv('shujuchakan2.csv')
-data_pre = pd.read_csv('shujuchakan2.csv')
+
+
+
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 import numpy as np
 #数据数据为两列数据x和y，有表头
-df = pd.read_table('d:/LinearRegression.txt')
+data_pre = pd.read_csv('shujuchakan2.csv')
+data_pre['cha'] = data_pre['target'] - data_pre['pre_data']
 #通过pandas读取为DataFrame，回归用的是矩阵数据而不是列表，数据为n个样品点和m个特征值，这里特征值只有一个因此换证nx1的矩阵
-dataSet_x = df.loc[:, 'X'].as_matrix(columns=None)
+dataSet_x = data_pre.loc[:, 'target'].as_matrix(columns=None)
 #T为矩阵转置把1xn变成nx1
 dataSet_x = np.array([dataSet_x]).T
-dataSet_y = df.loc[:, 'Y'].as_matrix(columns=None)
+dataSet_y = data_pre.loc[:, 'cha'].as_matrix(columns=None)
 dataSet_y = np.array([dataSet_y]).T
 #regr为回归过程，fit(x,y)进行回归
+data_pre.columns
+
 regr = LinearRegression().fit(dataSet_x, dataSet_y)
-#输出R的平方
-print(regr.score(dataSet_x, dataSet_y))
-plt.scatter(dataSet_x, dataSet_y,  color='black')
-#用predic预测，这里预测输入x对应的值，进行画线
-plt.plot(dataSet_x, regr.predict(dataSet_x), color='red', linewidth=1)
+data_pre['yc'] = regr.predict(dataSet_x)
+data_pre['nyc'] = data_pre['yc'] + data_pre['cha']
+mean_squared_error(data_pre['target'], data_pre['pre_data']-data_pre['nyc'])
 
 
 
-pd.DataFrame()
+#通过pandas读取为DataFrame，回归用的是矩阵数据而不是列表，数据为)
+
 solution_1 = pd.read_csv('jinnan_round1_submit_20181227.csv',header=None)
-solution_1['1'] = predictions
+solution_1.columns = ['sample','pre']
+solution_1['pre'] = predictions
 solution_1.to_csv('solution.csv')
 
+dataSet_x = solution_1.loc[:, 'pre'].as_matrix(columns=None)
+#T为矩阵转置把1xn变成nx1
+dataSet_x = np.array([dataSet_x]).T
+solution_1['nyc'] = regr.predict(dataSet_x)
+solution_1['last_solution'] = solution_1['pre'] - solution_1['nyc']
+solution_1.to_csv('solution_ii.csv')
 #===========================================================================================================================================将特征一个一个的往里面塞，进行特征筛选
 # 再一个个往里加，来验证作用
 f_list = data.columns.tolist()
