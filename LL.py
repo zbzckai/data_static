@@ -195,45 +195,42 @@ columns_name
 
 ###时间乘积特征
 data.columns
+data.shape
 def cheng_ji(time,column_1):
-    try:
-        data[time+"_"+column_1] =data[time] *data[column_1]
-        return data
-    except:
-        return data
+    data[time+"_"+column_1+"chengji"] =data[time] *data[column_1]
+    print(time)
+    return data
+
+type(data['A9_hnew_A7_hnew'])
+data.columns
+
 data = cheng_ji('A7_hnew_A5_hnew','A6')
 data = cheng_ji('A9_hnew_A7_hnew','A8')
 data = cheng_ji('A11_hnew_A9_hnew','A10')
 data = cheng_ji('A14_hnew_A11_hnew','A12')
-data = cheng_ji('A14_hnew_A11_hnew','A13')
+
 data = cheng_ji('A16_hnew_A14_hnew','A15')
 data = cheng_ji('A20_1_A16_hnew','A17')
-data = cheng_ji('A20_1_A16_hnew','A18')
 data = cheng_ji('A20_2_A20_1','A17')
-data = cheng_ji('A20_2_A20_1','A18')
 data = cheng_ji('A24_hnew_A20_2','A21')
 data = cheng_ji('A24_hnew_A20_2','A22')
-data = cheng_ji('A24_hnew_A20_2','A23')
+data['A25'][data['样本id'] == 1590] = data['A25'][data['样本id'] != 1590].value_counts().values[0]
+data['A25'] = data['A25'].astype(float)
 data = cheng_ji('A26_hnew_A24_hnew','A25')
 data = cheng_ji('A28_1_A26_hnew','A27')
 data = cheng_ji('A28_2_A28_1','A27')
+data = cheng_ji('B4_1_A28_2','B1')
+data = cheng_ji('B4_2_B4_1','B1')
+data = cheng_ji('B7_hnew_B5_hnew','B6')
+data = cheng_ji('B9_1_B7_hnew','B8')
+data = cheng_ji('B9_2_B9_1','B8')
+data = cheng_ji('B10_1_B9_2','B8')
+data = cheng_ji('B10_2_B10_1','B8')
+data = cheng_ji('B11_1_B10_2','B8')
+data = cheng_ji('B11_2_B11_1','B8')
+data.shape
 
-
-data = cheng_ji('B4_1_A28_2','A10')
-data = cheng_ji('B4_2_B4_1','A12')
-data = cheng_ji('B5_hnew_B4_2','A13')
-data = cheng_ji('B7_hnew_B5_hnew','A15')
-data = cheng_ji('B4_1_A28_2','A10')
-data = cheng_ji('B4_2_B4_1','A12')
-data = cheng_ji('B5_hnew_B4_2','A13')
-data = cheng_ji('B7_hnew_B5_hnew','A15')
-data = cheng_ji('B4_1_A28_2','A10')
-data = cheng_ji('B4_2_B4_1','A12')
-data = cheng_ji('B5_hnew_B4_2','A13')
-data = cheng_ji('B7_hnew_B5_hnew','A15')
-
-
-
+data.columns
 def getDuration(se):
     try:
         sh, sm, eh, em = re.findall(r"\d+\.?\d*", se)
@@ -313,7 +310,7 @@ data.columns
 
 ######===================================================================================新增特征
 
-categorical_columns = [f for f in data.columns if f not in ['样本id']]
+categorical_columns = [f for f in data.columns if ((f not in ['样本id']) & ('chengji' not in f))]
 numerical_columns = [f for f in data.columns if f not in categorical_columns]
 # 有风的冬老哥，在群里无意爆出来的特征，让我提升了三个个点，当然也可以顺此继续扩展
 data['b14/a1_a3_a4_a19_b1_b12'] = data['B14']/(data['A1']+data['A3']+data['A4']+data['A19']+data['B1']+data['B12'])
@@ -321,13 +318,11 @@ numerical_columns.append('b14/a1_a3_a4_a19_b1_b12')
 ###新加特征
 #data.to_csv('all.csv')
 
-
+data.columns
 
 del data['A1']
-del data['A3']
 del data['A4']
 categorical_columns.remove('A1')
-categorical_columns.remove('A3')
 categorical_columns.remove('A4')
 # label encoder
 for f in categorical_columns:
@@ -458,7 +453,7 @@ mean_squared_error(target.values, oof_stack)
 sub_df = pd.read_csv('./jinnan_round1_submit_20181227.csv', header=None)
 sub_df[1] = predictions
 sub_df[1] = sub_df[1].apply(lambda x:round(x, 3))
-
+sub_df.to_csv('solution.csv')
 
 def modeling_cross_validation(params, X, y, nr_folds=5):
     oof_preds = np.zeros(X.shape[0])
