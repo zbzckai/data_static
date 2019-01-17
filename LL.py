@@ -432,7 +432,8 @@ def get_pic(model, feature_name):
 
 train_data = train[mean_columns + numerical_columns +short_col]
 test_data = test[mean_columns + numerical_columns + short_col]
-train_label = target
+train_label = target.values
+len(train_label)
 xgb_1.fit(train_data, train_label)
 feature_name = train_data.columns.tolist()
 feature_importance = get_pic(xgb_1, feature_name)
@@ -681,17 +682,24 @@ y_train = target.values
 train_data_1 = train_data[best_features].copy()
 test_data_1 = test_data[best_features].copy()
 #============================================================================================================================
-
+train_data
 feature_name = train_data.columns.tolist()
 print('trainshape', train_data.shape)
 print('trainshape', test_data.shape)
+train_data.shape
+del train_data['target']
+train.shape
+xgb_1.fit(train_data, train_label)
+feature_name = train_data.columns.tolist()
+feature_importance = get_pic(xgb_1, feature_name)
+feature_importance_1 = feature_importance['name'].values.tolist()
 
 
 # 按重要性从前往后
 now_feature = []
 check = 100000
 feature_num_limit = 200
-feature_importance = best_features
+feature_importance = feature_importance_1
 for i in range(len(feature_importance)):
     if len(now_feature) >= feature_num_limit: break
     if i == 0:
@@ -714,7 +722,7 @@ for i in range(len(feature_importance)):
               "verbosity": -1}
     now_feature = now_feature.copy()
     current_score = modeling_cross_validation(params, train_data[now_feature].values, target.values, nr_folds=5)
-    if check - current_score > 0.00000001  :
+    if check - current_score > 0.0000002  :
         print('目前特征长度为', len(now_feature), ' 最佳CV', current_score, ' 成功加入第', i + 1, '个', '增值为', check - current_score)
         pd.DataFrame(now_feature, columns=['feature_names']).to_csv('new_cross_feature.csv', encoding='gbk')
         check = current_score
@@ -799,9 +807,11 @@ train_data[best_features].to_csv('train_data.csv',encoding='gbk')
 X_test = test_data[best_features].values
 X_train = train_data[best_features].values
 shujuchakan =train_data[best_features].copy()
-shujuchakan['target'] = target
-shujuchakan.to_csv('shujuchakan.csv',encoding='gbk')
-
+shujuchakan['target'] = target.values
+for i in shujuchakan.columns:
+    shujuchakan[i] = shujuchakan[i].map(lambda x:round(x,3))
+shujuchakan.to_csv('ll.csv',encoding='gb18030')
+shujuchakan.shape
 param = {'num_leaves': 120,
          'min_data_in_leaf': 30,
          'objective': 'regression',
